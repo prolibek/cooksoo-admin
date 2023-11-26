@@ -15,10 +15,22 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
+
+from rest_framework import permissions
+from rest_framework_swagger.views import get_swagger_view
+
+schema_view = get_swagger_view(
+    title="Cooksoo API"
+)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/users/', include('users.urls')),
-    path('api/management', include('management.urls')),
+    re_path(
+        r"^api/docs/$",
+        schema_view
+    ),
+    path(r'api/auth/', include('djoser.urls')),
+    re_path(r'api/auth/', include('djoser.urls.authtoken')),
+    path('api/management/', include('management.urls')),
 ]
