@@ -6,4 +6,8 @@ User = get_user_model()
 class UserCreateSerializer(UserCreateSerializer):
     class Meta(UserCreateSerializer.Meta):
         model = User
-        fields = ("id", "email", "username", "first_name", "last_name", "role", "password")
+        fields = ('id', 'username', 'password', 'first_name', 'last_name', 'email')
+
+    def validate(self, attrs):
+        attrs['role'] = User.CLIENT
+        return super().validate(attrs)

@@ -14,5 +14,6 @@ router.register(r'promocodes', views.PromocodeViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('set_discount/', views.SetDiscountAPIView.as_view(), name="set_discount")
+    path('set_discount/', views.SetDiscountAPIView.as_view(), name="set_discount"),
+    path('users/', views.UsersAPIView.as_view(), name="create_user")
 ]

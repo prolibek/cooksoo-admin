@@ -17,7 +17,7 @@ const AuthService = {
 
     register: async (data) => {
         try {
-            const response = await $api.post("auth/users/", data);
+            const response = await $api.post("auth/users", data);
             return response.data;
         } catch (error) {
             throw {

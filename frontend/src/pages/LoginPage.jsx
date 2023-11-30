@@ -1,6 +1,11 @@
 import React, { useState } from "react";
+
 import AuthService from "~/services/authService";
+import { login } from "~/features/auth/authSlice"
+
 import { useDispatch } from "react-redux";
+
+import { useNavigate } from "react-router-dom";
 
 const InputField = ({ label, type, value, onChange }) => (
   <label style={styles.label}>
@@ -14,22 +19,26 @@ const InputField = ({ label, type, value, onChange }) => (
   </label>
 );
 
-const SubmitButton = ({ label }) => (
-  <button type="submit" style={styles.button}>
+const SubmitButton = ({ label, onClick }) => (
+  <button type="submit" style={styles.button} onClick={onClick}>
     {label}
   </button>
 );
 
-const LoginForm = ({ onSubmit, username, onUsernameChange, password, onPasswordChange }) => (
+const LoginForm = ({ onSubmit, username, onUsernameChange, password, onPasswordChange, errorMsg }) => (
   <div style={styles.form}>
     <InputField label="Username" type="text" value={username} onChange={onUsernameChange} />
     <InputField label="Password" type="password" value={password} onChange={onPasswordChange} />
-    <SubmitButton label="Login" onClick={handleSubmit}/>
+    <SubmitButton label="Login" onClick={onSubmit} />
+    {errorMsg && <div style={styles.error}>{errorMsg}</div>}
   </div>
 );
 
+
 const LoginPage = () => {
-  dispatch = useDispatch();
+  const dispatch = useDispatch();
+
+  const navigate = useNavigate();
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -51,16 +60,19 @@ const LoginPage = () => {
     }
 
     try {
-      const response = AuthService.login({
+      const response = await AuthService.login({
         "username": username,
         "password": password
       })
-      const token = response.token;
+      console.log(response);
+      const auth_token = response.auth_token;
       dispatch(login({
-        token
+        auth_token
       }))
+      navigate("/");
     } catch(error) {
       setErrorMsg("Invalid credentials, try again.")
+      console.log(error)
     }
     setUsername("");
     setPassword("");
@@ -74,6 +86,7 @@ const LoginPage = () => {
         onUsernameChange={handleUsernameChange}
         password={password}
         onPasswordChange={handlePasswordChange}
+        errorMsg={errorMsg} // Pass the errorMsg state
       />
     </div>
   );
@@ -110,6 +123,10 @@ const styles = {
     border: "none",
     borderRadius: "3px",
     cursor: "pointer",
+  },
+  error: {
+    color: "red",
+    marginTop: "10px",
   },
 };
 

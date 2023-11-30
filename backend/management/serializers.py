@@ -1,14 +1,14 @@
 from rest_framework.serializers import ModelSerializer
 from . import models
 
+from django.contrib.auth import get_user_model
+
 class DishCategorySerializer(ModelSerializer):
     class Meta:
         fields = '__all__'
         model = models.DishCategory
 
 class DishSerializer(ModelSerializer):
-    category = DishCategorySerializer()
-
     class Meta:
         fields = '__all__'
         model = models.Dish
@@ -41,3 +41,8 @@ class PromocodeSerializer(ModelSerializer):
     class Meta:
         fields = '__all__'
         model = models.Promocode
+
+class UserSerializer(ModelSerializer):
+    class Meta:
+        fields = '__all__'
+        model = get_user_model()
