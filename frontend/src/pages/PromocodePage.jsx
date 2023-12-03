@@ -60,7 +60,17 @@ const PromocodeListPage = () => {
         margin: '20px 0',
         textDecoration: 'none',
         borderRadius: '4px',
-      }
+      },
+      editButton: {
+        backgroundColor: '#ff9800', 
+        color: 'white',
+        border: 'none',
+        borderRadius: '4px',
+        padding: '5px 10px',
+        cursor: 'pointer',
+        marginLeft: '10px', 
+        textDecoration: 'none',
+      },
   };
 
   return (
@@ -70,6 +80,9 @@ const PromocodeListPage = () => {
         {promocodes.map(promocode => (
           <li key={promocode.id} style={styles.listItem}>
             Code: {promocode.code} - Value: {promocode.value}
+            <Link to={`/promocodes/${promocode.id}/edit`} style={styles.editButton}>
+              Edit
+            </Link>
             <button style={styles.deleteButton} onClick={() => handleDelete(promocode.id)}>
               Delete
             </button>

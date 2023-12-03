@@ -16,6 +16,8 @@ class Dish(models.Model):
 class Branch(models.Model):
     name = models.CharField(max_length=55)
     address = models.CharField(max_length=500)
+    lon = models.DecimalField(max_digits=9, decimal_places=6, null=True)
+    lat = models.DecimalField(max_digits=9, decimal_places=6, null=True)
     description = models.TextField()
 
 class Order(models.Model):

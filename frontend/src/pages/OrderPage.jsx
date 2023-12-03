@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import $api from "../http";
 
 const OrderList = () => {
     const [orders, setOrders] = useState([]);
@@ -10,8 +10,8 @@ const OrderList = () => {
 
     const fetchOrders = async () => {
         try {
-            const response = await axios.get('/api/management/orders');
-            setOrders(response.data);
+            const response = await $api.get('/management/orders/');
+            setOrders([...response.data]);
         } catch (error) {
             console.error('Error fetching orders:', error);
         }
@@ -19,7 +19,7 @@ const OrderList = () => {
 
     const handleChangeStatus = async (orderId, newStatus) => {
         try {
-            await axios.patch(`/api/management/orders/${orderId}`, { status: newStatus });
+            await $api.patch(`/management/orders/${orderId}/`, { status: newStatus });
             fetchOrders();
         } catch (error) {
             console.error('Error updating order:', error);
@@ -62,8 +62,9 @@ const OrderList = () => {
             <ul>
                 {orders.map(order => (
                     <li key={order.id} style={styles.orderItem}>
-                        <span style={styles.clientName}>Client: {order.client.name}</span>
+                        <span style={styles.client}>Client: {order.client.name}</span>
                         <select
+                            key={order.id}
                             style={styles.statusSelector}
                             value={order.status}
                             onChange={(e) => handleChangeStatus(order.id, e.target.value)}

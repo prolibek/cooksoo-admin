@@ -50,7 +50,25 @@ const DishCategories = () => {
       color: 'white',
       textDecoration: 'none',
       borderRadius: '4px',
-    }
+    },
+    editButton: {
+      backgroundColor: '#ff9800', 
+      color: 'white',
+      border: 'none',
+      borderRadius: '4px',
+      padding: '5px 10px',
+      cursor: 'pointer',
+      marginLeft: '10px', 
+      textDecoration: 'none',
+    },
+    deleteButton: {
+      backgroundColor: '#f44336',
+      color: 'white',
+      border: 'none',
+      borderRadius: '4px',
+      padding: '5px 10px',
+      cursor: 'pointer',
+    },
   };
 
   return (
@@ -60,9 +78,12 @@ const DishCategories = () => {
         {categories.map(category => (
           <li key={category.id} style={styles.listItem}>
             {category.name} - {category.description}
+            <Link to={`/dish-categories/${category.id}/edit`} style={styles.editButton}>
+              Edit
+            </Link>
             <button
               onClick={() => handleDelete(category.id)}
-              style={{ marginLeft: '10px' }}
+              style={ styles.deleteButton }
             >
               Delete
             </button>

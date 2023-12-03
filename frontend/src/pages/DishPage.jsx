@@ -58,7 +58,25 @@ const DishPage = () => {
         objectFit: 'cover',
         borderRadius: '4px',
         marginBottom: '10px'
-    }
+    },
+    editButton: {
+      backgroundColor: '#ff9800', 
+      color: 'white',
+      border: 'none',
+      borderRadius: '4px',
+      padding: '5px 10px',
+      cursor: 'pointer',
+      marginLeft: '10px', 
+      textDecoration: 'none',
+    },
+    deleteButton: {
+      backgroundColor: '#f44336',
+      color: 'white',
+      border: 'none',
+      borderRadius: '4px',
+      padding: '5px 10px',
+      cursor: 'pointer',
+    },
   };
 
   return (
@@ -70,6 +88,9 @@ const DishPage = () => {
             {dish.image && <img src={dish.image} alt={dish.name} style={styles.image} />}
             <strong>{dish.name}</strong> - {dish.description}<br />
             Price: {dish.price} | Category: {dish.categoryName}
+            <Link to={`/dishes/${dish.id}/edit`} style={styles.editButton}>
+              Edit
+            </Link>
             <button
               style={styles.deleteButton}
               onClick={() => handleDelete(dish.id)}
